@@ -1,0 +1,25 @@
+{
+  "name": "thumbnail-gulp",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Jordan Catibog <jcatibog@cdsglobal.ca>"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

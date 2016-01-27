@@ -1,0 +1,10 @@
+{
+    "name": "catalogapi",
+    "versions": "1.0.0",
+    "author": "Jordan Catibog",
+    "dependencies": {
+        "express": "*",
+        "body-parser": "*",
+        "mongojs": "*"
+    }
+}
