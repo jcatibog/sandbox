@@ -1,12 +1,85 @@
 var React = require('react');
+var rootUrl = 'https://radiant-heat-1055.firebaseio.com/';
 
 module.exports = React.createClass({
+    changesButtons: function () {
+        if (!this.state.textChanged) {
+            return null;
+        } else {
+            return [
+                    <button
+                        onClick={this.handleSaveClick}
+                        className="btn btn-default">
+                        Save
+                    </button>,
+                    <button
+                        onClick={this.handleUndoClick}
+                        className="btn btn-default">
+                        Undo
+                    </button>
+            ];
+        }
+    },
+    componentWillMount: function () {
+        this.fb = new Firebase(rootUrl + 'items/' + this.props.item.key);
+    },
+    getInitialState: function () {
+        return {
+            text: this.props.item.text,
+            done: this.props.item.done,
+            textChanged: false
+        };
+    },
+    handleDeleteClick: function () {
+        this.fb.remove();
+    },
+    handleDoneChange: function (event) {
+        var update = { done: event.target.checked };
+        this.setState(update);
+        this.fb.update(update)
+    },
+    handleSaveClick: function () {
+        this.fb.update({ text: this.state.text });
+        this.setState({ textChanged: false });
+    },
+    handleTextChange: function (event) {
+        this.setState({
+            text: event.target.value,
+            textChanged: true
+        });
+    },
+    handleUndoClick: function () {
+        this.setState({
+            text: this.props.item.text,
+            textChanged: false
+        });
+    },
     render: function () {
-        console.log(this.props);
         return (
-            <li>
-                {this.props.item.text} - {this.props.key} - {this.props.item.done}
-            </li>
+            <div className="input-group">
+                <span className="input-group-addon">
+                    <input
+                        type="checkbox"
+                        checked={this.state.done}
+                        onChange={this.handleDoneChange}
+                    />
+                </span>
+                <input type="text"
+                    className="form-control"
+                    disabled={this.state.done}
+                    value={this.state.text}
+                    onChange={this.handleTextChange}
+                />
+                <span className="input-group-btn">
+                    {this.changesButtons()}
+                    <button
+                        className="btn btn-default"
+                        onClick={this.handleDeleteClick}
+                    >
+                        Delete
+                    </button>
+                </span>
+            </div>
         );
     }
 })
