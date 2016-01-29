@@ -7,16 +7,16 @@ module.exports = React.createClass({
             return null;
         } else {
             return [
-                    <button
-                        onClick={this.handleSaveClick}
-                        className="btn btn-default">
-                        Save
-                    </button>,
-                    <button
-                        onClick={this.handleUndoClick}
-                        className="btn btn-default">
-                        Undo
-                    </button>
+                <button
+                    onClick={this.handleSaveClick}
+                    className="btn btn-default">
+                    Save
+                </button>,
+                <button
+                    onClick={this.handleUndoClick}
+                    className="btn btn-default">
+                    Undo
+                </button>
             ];
         }
     },
@@ -74,8 +74,7 @@ module.exports = React.createClass({
                     {this.changesButtons()}
                     <button
                         className="btn btn-default"
-                        onClick={this.handleDeleteClick}
-                    >
+                        onClick={this.handleDeleteClick}>
                         Delete
                     </button>
                 </span>

@@ -14,13 +14,23 @@ var App = React.createClass({
     mixins: [ ReactFire ],
     componentWillMount: function () {
         this.fb = new Firebase(rootUrl + 'items/');
-        this.bindAsObject(this.fb, 'items');
-        this.fb.on('value', this.handleDataLoaded);
+        // this.bindAsObject(this.fb, 'items');
+        this.fb.on('value', function (dataSnapshot) {
+            var items = [];
+            dataSnapshot.forEach(function (childSnapshot) {
+                var key = childSnapshot.key();
+                var item = childSnapshot.val();
+                item.key = key;
+                items.push(item);
+            }.bind(this));
+            this.setState({
+                items: items,
+                loaded: true
+            });
+        }.bind(this));
     },
     deleteButton: function () {
-        if (!this.state.loaded) {
-            return;
-        } else {
+        if (Object.keys(this.state.items).length) {
             return (
                 <div className="text-center clear-complete">
                     <hr />
@@ -40,17 +50,12 @@ var App = React.createClass({
             loaded: false
         };
     },
-    handleDataLoaded: function () {
-        this.setState({ loaded: true });
-    },
     onDeleteDoneClick: function () {
-        console.log(this.fb);
-        // this.fb.forEach(function (item) {
-        //     if (item.done === true) {
-        //         console.log(item);
-                // this.fb.child(item.key).remove();
-        //     }
-        // })
+        for (var key in this.state.items) {
+            if (this.state.items[key].done) {
+                this.fb.child(this.state.items[key].key).remove();
+            }
+        }
     },
     render: function() {
         return (
@@ -59,7 +64,7 @@ var App = React.createClass({
                     <h2 className="text-center">
                         To-Do List
                     </h2>
-                    <Header itemsStore={this.firebaseRefs.items} />
+                    <Header itemsStore={this.fb} />
                     <hr />
                     <div className={"content " + (this.state.loaded ? "loaded" : "")}>
                         <List items={this.state.items} />

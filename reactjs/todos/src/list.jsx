@@ -3,24 +3,21 @@ var ListItem = require('./list-item');
 
 module.exports = React.createClass({
     renderList: function () {
-        if (!this.props.items) {
+        if (!Object.keys(this.props.items).length) {
             return (
                 <h4>Add a todo to get started.</h4>
             );
         } else {
             var children = [];
             for (var key in this.props.items) {
-                if (key != '.key') {
-                    var item = this.props.items[key];
-                    item.key = key;
-                    children.push(
-                        <ListItem
-                            item={item}
-                            key={key}
-                        >
-                        </ListItem>
-                    );
-                }
+                var item = this.props.items[key];
+                children.push(
+                    <ListItem
+                        item={item}
+                        key={item.key}
+                    >
+                    </ListItem>
+                );
             }
             return children;
         }
