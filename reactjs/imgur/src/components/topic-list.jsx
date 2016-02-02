@@ -1,31 +1,39 @@
 var React = require('react');
-var Api = require('../utils/api');
+var ReactRouter = require('react-router');
+var Reflux = require('reflux');
+var TopicStore = require('../stores/topic-store');
+var Actions = require('../actions');
+
+var Link = ReactRouter.Link;
 
 module.exports = React.createClass({
+    mixins: [
+        Reflux.listenTo(TopicStore, 'onChange')
+    ],
     componentWillMount: function () {
-        Api.get('topics/defaults')
-            .then(function (data) {
-                this.setState({
-                    topics: data.data
-                });
-            }.bind(this));
+        Actions.getTopics();
     },
     getInitialState: function () {
         return {
             topics: []
         };
     },
+    onChange: function (event, topics) {
+        this.setState({ topics: topics });
+    },
     renderTopics: function () {
-        return this.state.topics.map(function (topic) {
+        return this.state.topics.slice(0, 4).map(function (topic) {
             return (
-                <li>{topic.name}</li>
+                <Link to={"topics/" + topic.id} className="list-group-item" key={topic.id}>
+                    <h4>{topic.name}</h4>
+                    <p>{topic.description}</p>
+                </Link>
             );
         });
     },
     render: function () {
         return (
             <div className="list-group">
-                Topic List
                 {this.renderTopics()}
             </div>
         );
