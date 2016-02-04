@@ -22,7 +22,7 @@ module.exports = React.createClass({
         this.setState({ topics: topics});
     },
     renderTopics: function () {
-        return this.state.topics.slice(0, 4).map(function (topic) {
+        return this.state.topics.map(function (topic) {
             return (
                 <li key={topic.id}>
                     <Link activeClassName="active" to={"topics/" + topic.id} >{topic.name}</Link>
