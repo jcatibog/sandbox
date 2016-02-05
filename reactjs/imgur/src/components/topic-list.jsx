@@ -1,8 +1,9 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Reflux = require('reflux');
-var TopicStore = require('../stores/topic-store');
+
 var Actions = require('../actions');
+var TopicStore = require('../stores/topic-store');
 
 var Link = ReactRouter.Link;
 
