@@ -1,1 +1,31 @@
 <h1>Contact Page</h1>
+<form class="form-horizontal">
+  <div class="form-group has-feedback {{if isValidEmail "has-success" "has-error"}}">
+    <label class="control-label col-xs-12 col-sm-2" for="emailAddress">Email Address</label>
+    <div class="col-xs-12 col-sm-8">
+      {{input type="email" class="form-control" id="emailAddress" value=emailAddress placeholder="Email address." autofocus="autofocus" aria-describedby="emailAddressStatus"}}
+      <span class="glyphicon form-control-feedback {{if isValidEmail "glyphicon-ok" "glyphicon-remove"}}" aria-hidden="true"></span>
+      <span id="emailAddressStatus" class="sr-only">(success)</span>
+    </div>
+  </div>
+  <div class="form-group has-feedback {{if isValidMessage "has-success" "has-error"}}">
+    <label class="control-label col-xs-12 col-sm-2" for="commentMessage">Message</label>
+    <div class="col-xs-12 col-sm-8">
+      {{textarea class="form-control" id="commentMessage" value=message placeholder="Your message." rows="7" aria-describedby="commentMessageStatus"}}
+      <span class="glyphicon form-control-feedback {{if isValidMessage "glyphicon-ok" "glyphicon-remove"}}" aria-hidden="true"></span>
+      <span id="commentMessageStatus" class="sr-only">(success)</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <button class="btn btn-primary btn-lg btn-block" disabled={{isButtonDisabled}} {{action 'saveContactMessage'}}>Request invitation</button>
+    </div>
+  </div>
+  {{#if commentReceived}}
+  <div class="alert alert-success">
+    <p>
+      We have received your message and will get in touch soon!
+    </p>
+  </div>
+  {{/if}}
+</form>
